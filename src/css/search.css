@@ -1,0 +1,30 @@
+.box {
+    height: 50px;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 3rem;
+}
+input{
+    border-radius: 10px;
+    width:320px;
+    height:30px;
+}
+label{
+    margin-top: 1rem ;
+    margin-bottom: 5rem;
+    margin-right:-7rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.invisible__btn{
+    border:none;
+    background: none;
+    font-size: 1.6rem;
+}
+@media only screen and (max-width: 900px){
+input{
+    width:200px;
+}
+}
