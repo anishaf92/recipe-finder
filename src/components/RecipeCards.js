@@ -11,14 +11,14 @@ const RecipeCards = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Calculate the total number of pages based on the number of recipes
-  const totalPages = Math.ceil(recipes.length / cardsPerPage);
+  const totalPages = Math.ceil(recipes && recipes.length / cardsPerPage);
 
   // Calculate the start and end index for the current page
   const startIndex = (currentPage - 1) * cardsPerPage;
   const endIndex = currentPage * cardsPerPage;
 
   // Get the subset of recipes for the current page
-  const currentRecipes = recipes.slice(startIndex, endIndex);
+  const currentRecipes = recipes && recipes.slice(startIndex, endIndex);
 
   // State to manage favorites
   const [favorites, setFavorites] = useState([]);
@@ -66,7 +66,6 @@ const RecipeCards = (props) => {
     <div>
       <h2>Looking for an inspiration?</h2>
       <div className="card-container">
-        {/* Previous page */}
         <button
           className="invisible__btn page__btn"
           onClick={handlePrevPage}
@@ -80,6 +79,7 @@ const RecipeCards = (props) => {
             Search.
           </div>
         ) : (
+          currentRecipes &&
           currentRecipes.map((recipe, index) => (
             <Card
               key={index}
@@ -91,7 +91,6 @@ const RecipeCards = (props) => {
             />
           ))
         )}
-        {/* Next page */}
         <button
           className="invisible__btn page__btn"
           onClick={handleNextPage}
@@ -100,7 +99,6 @@ const RecipeCards = (props) => {
           <i className="fa-solid fa-forward"></i>
         </button>
       </div>
-      {/* To handle pagination in the bottom of cards */}
       {currentRecipes.length === 0 ? null : (
         <Pagination
           currentPage={currentPage}

@@ -2,52 +2,39 @@ import React, { useEffect, useState } from "react";
 import Search from "../components/Search";
 import RecipeCards from "../components/RecipeCards";
 import "../css/home.css";
-import { useDispatch } from "react-redux";
-import { setRecipes } from "../actions/recipeActions";
 import Loading from "../assets/pizza Loading.gif";
+import withDataFetching from '../hocs/withDataFetching';
 
-const Home = (props) => {
-  const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
-  //To fetch initial recipe cards to dessert recipes
+const Home = ({ fetchData }) => {
+  const [loading, setLoading] = useState(false);
+
+  // To fetch initial recipe cards for dessert recipes
   useEffect(() => {
     initialRecipes();
     // eslint-disable-next-line
-  },[]);
+  }, []);
+
   const initialRecipes = async () => {
-    const apiUrl = "https://api.edamam.com/api/recipes/v2";
-    const params = {
-      type: "public",
-      q: "Dessert",
+    setLoading(true);
+    const getSearchParams = () => ({
+      type: 'public',
+      q: "dessert",
       app_id: process.env.REACT_APP_API_ID,
       app_key: process.env.REACT_APP_API_KEY,
-    };
+    });
 
-    // Convert the params object to a query string
-    const queryString = Object.keys(params)
-      .map(
-        (key) => encodeURIComponent(key) + "=" + encodeURIComponent(params[key])
-      )
-      .join("&");
+    await fetchData({
+      additionalParams: getSearchParams(),
+      allowFetch: true,
+      setLoading, // Pass the setLoading callback to Search
+    });
 
-    // Combine the base URL and query string
-    const urlWithParams = `${apiUrl}?${queryString}`;
-
-    await fetch(urlWithParams)
-      .then((response) => response.json())
-      .then((data) => {
-        dispatch(setRecipes(data.hits));
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
+    setLoading(false);
   };
 
   return (
     <div>
-      <Search />
+      <Search setLoading={setLoading} />
       {loading ? (
         <div className="center">
           <img src={Loading} alt="loading" />
@@ -59,4 +46,4 @@ const Home = (props) => {
   );
 };
 
-export default Home;
+export default withDataFetching(Home, process.env.REACT_APP_API_URL);
