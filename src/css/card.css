@@ -144,6 +144,9 @@ div.pagination {
 }
 
 @media only screen and (max-width: 900px) {
+  .grid__item:hover {
+    transform: none;
+  }
   .box {
     margin-top: 2rem;
   }
@@ -158,6 +161,8 @@ div.pagination {
   }
 
   .card__header {
+    text-overflow: ellipsis;
+    white-space: wrap;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }

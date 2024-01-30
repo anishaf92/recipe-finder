@@ -96,4 +96,9 @@
   .instructions {
     padding-left: 2px;
   }
+  h2{
+    margin:0px;
+    margin-bottom: 1rem;
+  }
+ 
 }
