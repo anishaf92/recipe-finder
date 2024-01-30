@@ -45,5 +45,4 @@ const Home = ({ fetchData }) => {
     </div>
   );
 };
-
 export default withDataFetching(Home, process.env.REACT_APP_API_URL);
